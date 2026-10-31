@@ -1520,6 +1520,7 @@ fn open_with_confirm(app: &mut App) {
                 if crate::app::debug() {
                     eprintln!("luna-files: xdg-mime default: {err}");
                 }
+                app.show_toast(libluna_i18n::tr("Could not set the default application"));
             }
         }
     }

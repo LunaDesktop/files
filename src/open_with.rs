@@ -724,6 +724,10 @@ impl OpenWithDialog {
         default_id: Option<String>,
         apps: Vec<DesktopApp>,
     ) -> Self {
+        // Dla rozpoznanego typu zapamiętujemy wybór domyślnie: użytkownik, który
+        // wybiera aplikację, zwykle chce, żeby ten typ otwierał się nią także
+        // następnym razem. Przełącznik pozwala to wyłączyć.
+        let remember = mime.as_deref().is_some_and(|mime| !is_unknown_mime(mime));
         let selected = apps
             .iter()
             .position(DesktopApp::available)
@@ -736,7 +740,7 @@ impl OpenWithDialog {
             default_id,
             apps,
             selected,
-            remember: false,
+            remember,
             hovered: None,
             scroll,
             last_click: None,
@@ -972,6 +976,30 @@ MimeType=text/plain;
         dialog.scroll.set_offset(ROW_H, list);
         assert_eq!(dialog.index_at(list, Point::new(10.0, 110.0)), Some(1));
         assert!(!dialog.can_remember());
+    }
+
+    #[test]
+    fn remember_defaults_to_true_for_known_types() {
+        let gedit = parse_desktop_entry(GEDIT, "gedit.desktop").unwrap();
+        let known = OpenWithDialog::new(
+            PathBuf::from("/tmp/notatka.txt"),
+            Some("text/plain".to_owned()),
+            None,
+            vec![gedit.clone()],
+        );
+        assert!(known.can_remember());
+        assert!(
+            known.remember,
+            "wybór typu powinien być zapamiętywany domyślnie"
+        );
+
+        let unknown = OpenWithDialog::new(
+            PathBuf::from("/tmp/plik.bin"),
+            Some("application/octet-stream".to_owned()),
+            None,
+            vec![gedit],
+        );
+        assert!(!unknown.remember, "nieznanego typu nie da się zapamiętać");
     }
 
     #[test]
