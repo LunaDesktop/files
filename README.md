@@ -1,5 +1,7 @@
 # Luna Files (`luna-files`)
 
+> [Polski](README.pl.md) · [English](README.en.md) · [Deutsch](README.de.md)
+
 Pierwsza „duża” aplikacja uniwersum Luna: menedżer plików zbudowany **wyłącznie na
 libLunie** (`libluna-platform` + `libluna-widgets`), bez GTK, uruchamiany na
 kompozytorze Selene.
