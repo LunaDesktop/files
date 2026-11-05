@@ -1,7 +1,5 @@
 # Luna Files (`luna-files`)
 
-> [Polski](README.pl.md) · [English](README.en.md) · [Deutsch](README.de.md)
-
 Pierwsza „duża” aplikacja uniwersum Luna: menedżer plików zbudowany **wyłącznie na
 libLunie** (`libluna-platform` + `libluna-widgets`), bez GTK, uruchamiany na
 kompozytorze Selene.
@@ -31,6 +29,10 @@ Dostępne binarki:
 - **przeciąganie plików** myszą: upuszczenie na folder (w tym na drugi panel),
   miejsce w panelu bocznym, zamontowany nośnik albo Kosz przenosi zaznaczenie;
   `Ctrl` podczas przeciągania kopiuje, a cel jest podświetlany (Kosz na czerwono);
+- **przeciąganie poza okno** (Wayland DnD): gdy przeciąganie opuści okno, pliki
+  idą do kompozytora jako `text/uri-list` + `text/plain` (`file://…`), więc można
+  je upuścić w przeglądarce (pole uploadu), innym menedżerze plików, edytorze
+  albo kliencie poczty. Odbiorca decyduje, czy kopiuje, czy przenosi;
 - wielokrotne zaznaczanie: `Ctrl+klik`, `Shift+klik` (zakres), `Shift+↑/↓`, `Ctrl+A`;
   belka statusu pokazuje liczbę **i łączny rozmiar** zaznaczonych;
 - menu kontekstowe (prawy przycisk) i menu główne (☰) — wszystkie napisy przez i18n.
@@ -46,8 +48,9 @@ Dostępne binarki:
 - **„Otwórz za pomocą…”** (menu kontekstowe pliku) — lista aplikacji z wpisów
   `.desktop`, ikony, podpowiedź typu MIME i znacznik aplikacji domyślnej;
   dwuklik na nieznanym typie (albo brak domyślnej aplikacji) otwiera to okno samo,
-  a przełącznik „Zawsze używaj dla tego typu plików” zapisuje wybór przez
-  `xdg-mime default` do `mimeapps.list`;
+  a wybór jest zapamiętywany przez `xdg-mime default` w `mimeapps.list`
+  (przełącznik „Zawsze używaj dla tego typu plików” jest domyślnie włączony
+  dla rozpoznanych typów MIME — można go wyłączyć, by otworzyć plik jednorazowo);
 - **Właściwości** pokazują rozmiar katalogu liczony rekurencyjnie w tle
   (liczba plików i podkatalogów), bez blokowania UI.
 
